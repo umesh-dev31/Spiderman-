@@ -21,7 +21,7 @@ export default function OriginSection() {
   const bgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
 
   return (
-    <section ref={ref} className="relative overflow-hidden" style={{ background: "#040608", minHeight: "100vh" }}>
+    <section id="story" ref={ref} className="relative overflow-hidden" style={{ background: "#040608", minHeight: "100vh" }}>
 
       {/* Parallax red orb */}
       <motion.div style={{ y: bgY }} className="absolute pointer-events-none"

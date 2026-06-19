@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 
 const IMAGES = [
@@ -14,9 +14,18 @@ export default function GallerySection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    const h = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", h);
+    return () => mq.removeEventListener("change", h);
+  }, []);
 
   return (
-    <section ref={ref} className="relative overflow-hidden" style={{ background: "#040608" }}>
+    <section id="gallery" ref={ref} className="relative overflow-hidden" style={{ background: "#040608" }}>
       <div className="absolute inset-0 pointer-events-none"
         style={{ backgroundImage: "repeating-linear-gradient(135deg, transparent, transparent 80px, rgba(232,23,44,0.007) 81px)" }} />
       <div className="w-full h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(232,23,44,0.3), transparent)" }} />
@@ -41,56 +50,71 @@ export default function GallerySection() {
           </motion.p>
         </div>
 
-        {/* Bento grid */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(12, 1fr)",
-          gridTemplateRows: "42vh 32vh",
-          gap: 8,
-        }}>
-
-          {/* Image 1 — large hero: cols 1-7, row 1 */}
-          <GalleryCell img={IMAGES[0]} delay={0} inView={inView}
-            style={{ gridColumn: "1 / 8", gridRow: "1 / 2" }}
-            onClick={() => setLightbox(IMAGES[0].src)} />
-
-          {/* Image 2 — tall portrait: cols 8-12, rows 1-2 */}
-          <GalleryCell img={IMAGES[1]} delay={0.08} inView={inView}
-            style={{ gridColumn: "8 / 13", gridRow: "1 / 3" }}
-            onClick={() => setLightbox(IMAGES[1].src)} />
-
-          {/* Image 3 — bottom left: cols 1-4, row 2 */}
-          <GalleryCell img={IMAGES[2]} delay={0.16} inView={inView}
-            style={{ gridColumn: "1 / 5", gridRow: "2 / 3" }}
-            onClick={() => setLightbox(IMAGES[2].src)} />
-
-          {/* Image 4 — bottom mid: cols 5-7, row 2 */}
-          <GalleryCell img={IMAGES[3]} delay={0.22} inView={inView}
-            style={{ gridColumn: "5 / 8", gridRow: "2 / 3" }}
-            onClick={() => setLightbox(IMAGES[3].src)} />
-        </div>
-
-        {/* 5th image — full-width banner below */}
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.28 }}
-          className="group relative overflow-hidden cursor-pointer"
-          style={{ marginTop: 8, height: "28vh" }}
-          onClick={() => setLightbox(IMAGES[4].src)}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={IMAGES[4].src} alt={IMAGES[4].alt}
-            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%", display: "block",
-              transition: "transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)" }}
-            className="group-hover:scale-105" />
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-            style={{ background: "rgba(232,23,44,0.12)" }} />
-          <div className="absolute inset-0 pointer-events-none"
-            style={{ border: "1px solid rgba(255,255,255,0.06)" }} />
-          {/* Expand icon */}
-          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{ width: 32, height: 32, border: "1px solid rgba(255,255,255,0.4)", display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(4,6,8,0.6)" }}>
-            <span style={{ color: "#fff", fontSize: 12 }}>⤢</span>
+        {isMobile ? (
+          /* ── MOBILE: stacked layout ── */
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {/* Image 1 full width */}
+            <GalleryCell img={IMAGES[0]} delay={0} inView={inView}
+              style={{ height: "42vw" }} onClick={() => setLightbox(IMAGES[0].src)} />
+            {/* Images 3 + 4 side by side */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+              <GalleryCell img={IMAGES[2]} delay={0.08} inView={inView}
+                style={{ height: "38vw" }} onClick={() => setLightbox(IMAGES[2].src)} />
+              <GalleryCell img={IMAGES[3]} delay={0.12} inView={inView}
+                style={{ height: "38vw" }} onClick={() => setLightbox(IMAGES[3].src)} />
+            </div>
+            {/* Image 2 full width */}
+            <GalleryCell img={IMAGES[1]} delay={0.16} inView={inView}
+              style={{ height: "52vw" }} onClick={() => setLightbox(IMAGES[1].src)} />
+            {/* Banner */}
+            <GalleryCell img={IMAGES[4]} delay={0.2} inView={inView}
+              style={{ height: "32vw" }} onClick={() => setLightbox(IMAGES[4].src)}
+              objectPosition="center 35%" />
           </div>
-        </motion.div>
+        ) : (
+          <>
+            {/* ── DESKTOP: bento grid ── */}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(12, 1fr)",
+              gridTemplateRows: "42vh 32vh",
+              gap: 8,
+            }}>
+              <GalleryCell img={IMAGES[0]} delay={0} inView={inView}
+                style={{ gridColumn: "1 / 8", gridRow: "1 / 2" }}
+                onClick={() => setLightbox(IMAGES[0].src)} />
+              <GalleryCell img={IMAGES[1]} delay={0.08} inView={inView}
+                style={{ gridColumn: "8 / 13", gridRow: "1 / 3" }}
+                onClick={() => setLightbox(IMAGES[1].src)} />
+              <GalleryCell img={IMAGES[2]} delay={0.16} inView={inView}
+                style={{ gridColumn: "1 / 5", gridRow: "2 / 3" }}
+                onClick={() => setLightbox(IMAGES[2].src)} />
+              <GalleryCell img={IMAGES[3]} delay={0.22} inView={inView}
+                style={{ gridColumn: "5 / 8", gridRow: "2 / 3" }}
+                onClick={() => setLightbox(IMAGES[3].src)} />
+            </div>
+            {/* Banner */}
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.28 }}
+              className="group relative overflow-hidden cursor-pointer"
+              style={{ marginTop: 8, height: "28vh" }}
+              onClick={() => setLightbox(IMAGES[4].src)}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={IMAGES[4].src} alt={IMAGES[4].alt}
+                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%", display: "block",
+                  transition: "transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)" }}
+                className="group-hover:scale-105" />
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{ background: "rgba(232,23,44,0.12)" }} />
+              <div className="absolute inset-0 pointer-events-none"
+                style={{ border: "1px solid rgba(255,255,255,0.06)" }} />
+              <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ width: 32, height: 32, border: "1px solid rgba(255,255,255,0.4)", display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(4,6,8,0.6)" }}>
+                <span style={{ color: "#fff", fontSize: 12 }}>⤢</span>
+              </div>
+            </motion.div>
+          </>
+        )}
 
         {/* Caption */}
         <motion.div initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ duration: 0.8, delay: 0.5 }}
@@ -133,13 +157,14 @@ export default function GallerySection() {
 }
 
 function GalleryCell({
-  img, delay, inView, style, onClick,
+  img, delay, inView, style, onClick, objectPosition = "center center",
 }: {
   img: { src: string; alt: string };
   delay: number;
   inView: boolean;
   style: React.CSSProperties;
   onClick: () => void;
+  objectPosition?: string;
 }) {
   return (
     <motion.div
@@ -152,7 +177,7 @@ function GalleryCell({
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={img.src} alt={img.alt}
-        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block",
+        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition, display: "block",
           transition: "transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)" }}
         className="group-hover:scale-105" />
 

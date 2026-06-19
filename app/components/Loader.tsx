@@ -37,12 +37,12 @@ export default function Loader() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           style={{
-            height: "clamp(140px, 20vw, 260px)",
+            height: "clamp(100px, 18vw, 260px)",
             width: "auto",
+            maxWidth: "48vw",
             objectFit: "contain",
-            filter: "grayscale(0%) drop-shadow(0 0 40px rgba(232,23,44,0.7))",
+            filter: "drop-shadow(0 0 40px rgba(232,23,44,0.7))",
             flexShrink: 0,
-            animation: "colorReveal 0.9s ease 0.5s both",
           }}
         />
       </motion.div>
@@ -66,12 +66,12 @@ export default function Loader() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           style={{
-            height: "clamp(140px, 20vw, 260px)",
+            height: "clamp(100px, 18vw, 260px)",
             width: "auto",
+            maxWidth: "48vw",
             objectFit: "contain",
-            filter: "grayscale(0%) drop-shadow(0 0 40px rgba(232,23,44,0.7))",
+            filter: "drop-shadow(0 0 40px rgba(232,23,44,0.7))",
             flexShrink: 0,
-            animation: "colorReveal 0.9s ease 0.5s both",
           }}
         />
       </motion.div>

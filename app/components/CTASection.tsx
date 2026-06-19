@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { showToast } from "./Toast";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -77,7 +78,7 @@ export default function CTASection() {
   }, []);
 
   return (
-    <div ref={containerRef} style={{ height: "500vh", position: "relative" }}>
+    <div id="tickets" ref={containerRef} style={{ height: "500vh", position: "relative" }}>
       <div className="sticky top-0 overflow-hidden" style={{ height: "100vh" }}>
 
         {/* Canvas — 277-frame scroll animation */}
@@ -121,8 +122,8 @@ export default function CTASection() {
           {/* Marvel badge */}
           <motion.div initial={{ opacity: 0, y: -20 }} animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="mb-8 inline-block px-4 py-1" style={{ background: "var(--red)" }}>
-            <span style={{ fontSize: 10, fontWeight: 900, letterSpacing: "0.4em", textTransform: "uppercase", color: "#fff", fontFamily: "sans-serif" }}>
+            style={{ marginBottom: "clamp(14px, 3vw, 32px)", display: "inline-block", padding: "4px 16px", background: "var(--red)" }}>
+            <span style={{ fontSize: "clamp(8px, 1.2vw, 10px)", fontWeight: 900, letterSpacing: "0.4em", textTransform: "uppercase", color: "#fff", fontFamily: "sans-serif" }}>
               Marvel Studios
             </span>
           </motion.div>
@@ -131,15 +132,15 @@ export default function CTASection() {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.9, delay: 0.1 }}>
             <h2 style={{
-              fontSize: "clamp(52px, 10vw, 120px)", fontWeight: 900, fontFamily: "sans-serif",
+              fontSize: "clamp(38px, 10vw, 120px)", fontWeight: 900, fontFamily: "sans-serif",
               color: "#fff", letterSpacing: "-0.02em", lineHeight: 1,
               textShadow: "0 0 100px rgba(232,23,44,0.4), 0 4px 60px rgba(0,0,0,0.9)",
             }}>
               SPIDER-MAN
             </h2>
             <h3 style={{
-              fontSize: "clamp(20px, 4vw, 48px)", fontWeight: 900, fontFamily: "sans-serif",
-              color: "var(--red)", letterSpacing: "0.1em", fontStyle: "italic", marginTop: 10,
+              fontSize: "clamp(14px, 4vw, 48px)", fontWeight: 900, fontFamily: "sans-serif",
+              color: "var(--red)", letterSpacing: "0.1em", fontStyle: "italic", marginTop: 6,
               textShadow: "0 0 60px rgba(232,23,44,0.7)",
             }}>
               BRAND NEW DAY
@@ -149,7 +150,7 @@ export default function CTASection() {
           {/* Date */}
           <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.35 }}
-            style={{ marginTop: 18, fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(240,240,240,0.4)", fontFamily: "sans-serif" }}>
+            style={{ marginTop: "clamp(10px, 2vw, 18px)", fontSize: "clamp(8px, 1.5vw, 11px)", letterSpacing: "0.35em", textTransform: "uppercase", color: "rgba(240,240,240,0.4)", fontFamily: "sans-serif" }}>
             Only In Cinemas &nbsp;·&nbsp; July 31, 2026
           </motion.p>
 
@@ -157,17 +158,19 @@ export default function CTASection() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.5 }}
             className="pointer-events-auto"
-            style={{ marginTop: 40, display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
+            style={{ marginTop: "clamp(24px, 5vw, 40px)", display: "flex", flexDirection: "column", alignItems: "center", gap: "clamp(10px, 2vw, 16px)", width: "100%" }}>
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: "0 0 50px rgba(232,23,44,0.5)" }}
               whileTap={{ scale: 0.97 }}
-              style={{ padding: "18px 52px", background: "var(--red)", color: "#fff", fontSize: 12, fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase", fontFamily: "sans-serif", border: "none", cursor: "pointer" }}>
+              onClick={() => showToast("Tickets Available!", "Book your seats for July 31, 2026")}
+              style={{ padding: "clamp(12px, 2.5vw, 18px) clamp(28px, 8vw, 52px)", background: "var(--red)", color: "#fff", fontSize: "clamp(10px, 1.5vw, 12px)", fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase", fontFamily: "sans-serif", border: "none", cursor: "pointer", width: "clamp(200px, 60vw, 320px)" }}>
               Get Tickets Now
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.04, borderColor: "rgba(232,23,44,0.7)" }}
               whileTap={{ scale: 0.97 }}
-              style={{ padding: "18px 52px", background: "transparent", border: "1px solid rgba(232,23,44,0.35)", color: "rgba(240,240,240,0.7)", fontSize: 12, letterSpacing: "0.3em", textTransform: "uppercase", fontFamily: "sans-serif", cursor: "pointer" }}>
+              onClick={() => document.getElementById("trailers")?.scrollIntoView({ behavior: "smooth" })}
+              style={{ padding: "clamp(10px, 2vw, 18px) clamp(28px, 8vw, 52px)", background: "transparent", border: "1px solid rgba(232,23,44,0.35)", color: "rgba(240,240,240,0.7)", fontSize: "clamp(10px, 1.5vw, 12px)", letterSpacing: "0.3em", textTransform: "uppercase", fontFamily: "sans-serif", cursor: "pointer", width: "clamp(200px, 60vw, 320px)" }}>
               Watch Trailer
             </motion.button>
           </motion.div>
@@ -175,9 +178,9 @@ export default function CTASection() {
           {/* Badges */}
           <motion.div initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.7 }}
-            style={{ marginTop: 40, display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+            style={{ marginTop: "clamp(16px, 3vw, 40px)", display: "flex", gap: "clamp(6px, 1.5vw, 12px)", flexWrap: "wrap", justifyContent: "center" }}>
             {["PG-13", "IMAX", "4DX", "Dolby Cinema"].map(b => (
-              <span key={b} style={{ fontSize: 9, letterSpacing: "0.35em", textTransform: "uppercase", padding: "6px 12px", border: "1px solid rgba(240,240,240,0.12)", color: "rgba(240,240,240,0.3)", fontFamily: "sans-serif" }}>
+              <span key={b} style={{ fontSize: "clamp(7px, 1.2vw, 9px)", letterSpacing: "0.3em", textTransform: "uppercase", padding: "5px 10px", border: "1px solid rgba(240,240,240,0.12)", color: "rgba(240,240,240,0.3)", fontFamily: "sans-serif" }}>
                 {b}
               </span>
             ))}
@@ -185,27 +188,32 @@ export default function CTASection() {
         </div>
 
         {/* Footer bar */}
-        <div className="absolute inset-x-0 bottom-0 z-10" style={{ padding: "0 40px 18px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div className="absolute inset-x-0 bottom-0 z-10" style={{ padding: "0 clamp(16px, 5vw, 40px) 16px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/spider-logo.png" alt="Spider-Man"
-                style={{ width: 26, height: 26, objectFit: "contain", filter: "drop-shadow(0 0 6px rgba(232,23,44,0.8))" }} />
-              <span style={{ fontSize: 9, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(240,240,240,0.25)", fontFamily: "sans-serif" }}>
+                style={{ width: 22, height: 22, objectFit: "contain", filter: "drop-shadow(0 0 6px rgba(232,23,44,0.8))" }} />
+              <span style={{ fontSize: 9, letterSpacing: "0.35em", textTransform: "uppercase", color: "rgba(240,240,240,0.25)", fontFamily: "sans-serif" }}>
                 Spider-Man
               </span>
             </div>
-            <p style={{ fontSize: 9, color: "rgba(240,240,240,0.12)", fontFamily: "sans-serif" }}>
+            <p style={{ fontSize: 8, color: "rgba(240,240,240,0.12)", fontFamily: "sans-serif" }}>
               © 2026 Marvel Characters, Inc. Fan tribute.
             </p>
-            <div style={{ display: "flex", gap: 24 }}>
-              {["Privacy", "Terms", "Contact"].map(l => (
-                <a key={l} href="#"
-                  style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(240,240,240,0.18)", fontFamily: "sans-serif", textDecoration: "none", transition: "color 0.3s" }}
-                  onMouseEnter={e => ((e.target as HTMLElement).style.color = "var(--red)")}
-                  onMouseLeave={e => ((e.target as HTMLElement).style.color = "rgba(240,240,240,0.18)")}>
-                  {l}
-                </a>
+            <div className="hidden sm:flex" style={{ gap: 20 }}>
+              {[
+                { label: "Privacy",  msg: "Privacy Policy — This is a fan tribute site. No personal data is collected." },
+                { label: "Terms",    msg: "Terms of Use — Fan content. Not affiliated with Marvel Studios." },
+                { label: "Contact",  msg: "Contact — spidermanfan@marvel2026.com" },
+              ].map(({ label, msg }) => (
+                <button key={label}
+                  onClick={() => showToast(label, msg)}
+                  style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(240,240,240,0.18)", fontFamily: "sans-serif", background: "none", border: "none", cursor: "pointer" }}
+                  onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = "var(--red)")}
+                  onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = "rgba(240,240,240,0.18)")}>
+                  {label}
+                </button>
               ))}
             </div>
           </div>
