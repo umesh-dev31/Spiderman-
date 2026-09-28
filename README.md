@@ -1,36 +1,139 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Spider-Man: Brand New Day
+
+An interactive, scroll-driven promotional web experience built for "Spider-Man: Brand New Day" (In Cinemas July 31, 2026). Featuring high-performance HTML5 canvas frame scrubbing, GSAP ScrollTrigger animations, interactive character dossiers, dynamic threat assessments, and fluid Framer Motion transitions.
+
+---
+
+## Live Repository
+
+[https://github.com/umesh-dev31/Spiderman-](https://github.com/umesh-dev31/Spiderman-)
+
+---
+
+## Tech Stack
+
+| Tool | Purpose |
+|---|---|
+| Next.js 16 (App Router) | Core React framework and production build tooling |
+| React 19 | Declarative component UI and state management |
+| GSAP + ScrollTrigger | High-performance scroll orchestration and canvas frame scrubbing |
+| Framer Motion | Fluid spring physics, layout animations, and gesture interactions |
+| Tailwind CSS v4 | Utility-first styling with custom dark aesthetic tokens |
+| TypeScript | Type safety and strict component props validation |
+
+---
+
+## Project Structure
+
+```
+spiderman/
+  app/
+    globals.css               Global styling, grain overlay, red accent gradients
+    layout.tsx                Root layout with metadata and global toast mount
+    page.tsx                  Master page composing all interactive sections
+    components/
+      Loader.tsx              Cinematic split-screen preloader with load tracking
+      Navbar.tsx              Fixed glassmorphism navigation with sound effects and drawer
+      FrameHero.tsx           134-frame scroll-scrubbed canvas with release countdown
+      OriginSection.tsx       Narrative recap of Peter Parker's forgotten identity
+      CharactersSection.tsx   Interactive character dossiers (Spider-Man, MJ, Hulk, Ned)
+      PowersSection.tsx       Tactical breakdown of powers and suit capabilities
+      GallerySection.tsx      High-definition film stills and concept art showcase
+      VillainsSection.tsx     Rogues gallery with threat classification dossiers
+      CTASection.tsx          Ticket reservations and premier alert subscriptions
+      TrailersSection.tsx     Official teasers, trailers, and video modals
+      QuoteSection.tsx        Cinematic quote showcase and thematic narrative
+      Footer.tsx              Marvel Studios copyright, legal disclosures, and links
+      Toast.tsx               Global interactive notification dispatch system
+  public/
+    frames/                   134 sequential JPEG frames for hero scroll sequence
+    characters/               High-resolution character transparent PNG cutouts
+    gallery section/          Cinematic production stills and artwork
+    footer section/           Footer branding and backdrop elements
+```
+
+---
+
+## Key Features and Architecture
+
+### 1. Canvas Scroll Sequence Scrubbing (FrameHero)
+- **134-Frame Scrub Engine:** Synchronizes high-resolution photographic frames (frame 67 through frame 200) directly against window scroll progress using GSAP ScrollTrigger.
+- **Aspect Ratio Preservation:** Automatically calculates letterboxing and device pixel ratio adjustments to maintain crisp visuals on retina screens.
+- **Synchronized Captions:** Timeline triggers fade narrative beats at specific scroll milestones (0.05, 0.28, 0.52, 0.76).
+- **Release Countdown:** Live countdown timer calculating days, hours, minutes, and seconds until the cinema release on July 31, 2026.
+
+### 2. Interactive Character Dossiers
+- **Multi-Character Switcher:** Detailed profiles for Peter Parker (Tom Holland), Michelle "MJ" Jones (Zendaya), Bruce Banner / Hulk (Mark Ruffalo), and Ned Leeds (Jacob Batalon).
+- **Smooth Layout Transitions:** Animated character switching powered by Framer Motion's AnimatePresence.
+
+### 3. Rogues Gallery and Threat Level Assessment
+- **Threat Meters:** Detailed dossiers on Green Goblin, Doc Ock, Venom, Electro, Sandman, and Lizard.
+- **Dynamic Stats:** Threat ratings, power indicators, and lore descriptions.
+
+### 4. Audio Feedback and Interactive UI
+- **Global Toast Alerts:** Built-in toast notifications for user interactions, reservations, and reminders.
+- **Custom Sound Effects:** Interactive audio cues mapped to UI clicks and hover events.
+- **Mobile Responsive:** Full touch adaptation across all breakpoints, from mobile viewports to ultra-wide displays.
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18.0.0 or higher
+- npm, pnpm, or yarn
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/umesh-dev31/Spiderman-.git
+cd Spiderman-
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Start the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open your browser and navigate to:
+```
+http://localhost:3000
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Build and Production
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To create an optimized production build:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# Build the production bundle
+npm run build
 
-## Deploy on Vercel
+# Start the production server
+npm run start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scripts
+
+| Command | Action |
+|---|---|
+| npm run dev | Starts the Next.js development server on port 3000 |
+| npm run build | Compiles and builds the production bundle |
+| npm run start | Starts the production server |
+| npm run lint | Runs ESLint validation across the codebase |
+
+---
+
+## License
+
+This project is created for educational and portfolio demonstration purposes. All characters and trademarks are property of Marvel Studios and Sony Pictures.
